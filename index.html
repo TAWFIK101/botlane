@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Botlane Studio × Future Medical Center | هديتك جاهزة</title>
+<meta name="description" content="الفضول كسبك 100 نقطة هدية من Botlane Studio وعيادات فيوتشر ميديكال">
+<meta name="theme-color" content="#0f172a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Cairo', system-ui, sans-serif; background:#0f172a; }
+  .bar-fill { transition: width .6s cubic-bezier(.22,1,.36,1); }
+  input:focus, select:focus { outline: none; box-shadow: 0 0 0 2px #818cf8; }
+  .pop { animation: pop .5s ease both; }
+  @keyframes pop { 0%{transform:scale(.95);opacity:0} 100%{transform:scale(1);opacity:1} }
+  .reward { transition: opacity .3s, border-color .3s, background-color .3s, box-shadow .2s; cursor:pointer; }
+  .reward.locked { opacity:.55; }
+  .reward.open.green { border-color:#22c55e; background:rgba(34,197,94,.10); }
+  .reward.open.blue  { border-color:#3b82f6; background:rgba(59,130,246,.10); }
+  .reward.selected { box-shadow: 0 0 0 3px #fbbf24; }
+  .logo-fallback { font-family: 'Inter', Arial, sans-serif; }
+</style>
+</head>
+<body class="min-h-screen text-slate-100 antialiased">
+
+<main class="max-w-md mx-auto px-4 pt-6 pb-10">
+
+  <!-- Header -->
+  <header class="text-center">
+    <div class="inline-block bg-white rounded-2xl px-5 py-3 mb-4 shadow-lg">
+      <img src="logo.png" alt="Botlane Studio" class="h-14 w-auto object-contain mx-auto"
+           onerror="this.style.display='none';document.getElementById('logoFallback').classList.remove('hidden')">
+      <div id="logoFallback" class="hidden logo-fallback" style="background:#2b2b2b;color:#fff;padding:10px 22px;line-height:1;text-align:center" dir="ltr">
+        <div style="font-weight:600;font-size:30px;letter-spacing:.5px">BOTLANE</div>
+        <div style="font-weight:400;font-size:13px;letter-spacing:7px;margin-top:6px">STUDIO</div>
+      </div>
+    </div>
+    <h1 class="text-xl font-extrabold leading-relaxed pop">
+      عارفين إنك فضولي! 😉<br>
+      بس الفضول ده كسبك <span class="text-amber-400">100 نقطة</span> هدية من Botlane Studio وعيادات فيوتشر ميديكال 🚀
+    </h1>
+  </header>
+
+  <!-- Progress -->
+  <section class="mt-6 bg-slate-800/70 rounded-2xl p-4 border border-slate-700">
+    <div class="flex justify-between items-end mb-2">
+      <span class="text-sm text-slate-300">رصيدك دلوقتي</span>
+      <span class="font-extrabold text-lg"><span id="pts">100</span> <span class="text-slate-400 text-sm font-normal">من 200 نقطة</span></span>
+    </div>
+    <div class="h-4 bg-slate-700 rounded-full overflow-hidden">
+      <div id="bar" class="bar-fill h-full rounded-full bg-gradient-to-l from-amber-400 to-indigo-500" style="width:50%"></div>
+    </div>
+    <p id="hint" class="text-xs text-slate-400 mt-2">شوف هداياك تحت وزوّد نقاطك بالمتابعة 👇</p>
+  </section>
+
+  <!-- Rewards -->
+  <section class="mt-4 bg-slate-800/70 rounded-2xl p-4 border border-slate-700">
+    <h2 class="font-extrabold mb-1">🎁 مكافآتك</h2>
+    <p class="text-xs text-slate-300 mb-3">دي الهدايا اللي مستنياك 👇 زوّد نقاطك من القسم اللي بعده عشان تفتحها (🔒 ← ✅)، وبعدين اضغط على هديتك.</p>
+
+    <div id="grpMedical" class="mb-3">
+      <div class="rounded-xl bg-slate-900/60 border border-teal-700/60 p-2 mb-2 flex items-center gap-2.5">
+        <div class="shrink-0 bg-white rounded-xl p-1 w-16 h-16 flex items-center justify-center">
+          <img src="fmc-logo.png" alt="Future Medical Center" class="w-full h-full object-contain"
+               onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden')">
+          <div class="hidden text-center leading-tight" dir="ltr">
+            <div style="font-weight:800;font-size:24px;color:#14304f">FMC</div>
+            <div style="font-size:8px;color:#277b8e">Future Medical Center</div>
+          </div>
+        </div>
+        <div class="flex-1">
+          <h3 class="font-extrabold text-sm text-teal-300">🏥 مكافآت عيادات فيوتشر ميديكال</h3>
+          <p class="text-sm font-extrabold text-white mt-1">د. محمد توفيق</p>
+          <p class="text-xs text-slate-300 leading-relaxed">استشاري النساء والتوليد والحقن المجهري وجراحة المناظير</p>
+        </div>
+      </div>
+      <ul id="listMedical" class="space-y-1.5 text-[13px] leading-snug"></ul>
+    </div>
+
+    <div id="grpDigital">
+      <h3 class="font-extrabold text-sm text-indigo-300 mb-2">💻 مكافآت Botlane Studio (لتطوير مشروعك)</h3>
+      <ul id="listDigital" class="space-y-1.5 text-[13px] leading-snug"></ul>
+    </div>
+  </section>
+
+  <!-- Social missions -->
+  <section class="mt-4 bg-slate-800/70 rounded-2xl p-4 border border-slate-700">
+    <h2 class="font-extrabold mb-1">⭐ زوّد نقاطك</h2>
+    <p class="text-xs text-slate-300 mb-3">كل متابعة بتديك +50 نقطة (الحد الأقصى 200 نقطة).</p>
+
+    <div class="space-y-3">
+      <a id="fbBtn" href="https://www.facebook.com/share/1DYkUYj9vX/?mibextid=wwXIfr" target="_blank" rel="noopener"
+         class="flex items-center gap-3 rounded-xl bg-[#1877F2] text-white p-3 active:scale-95 transition">
+        <svg viewBox="0 0 24 24" class="w-8 h-8 shrink-0" fill="#fff" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        <span class="font-extrabold flex-1 leading-tight">تابع Botlane Studio<br><span class="text-xs font-normal opacity-90">على فيسبوك</span></span>
+        <span id="fbBadge" class="text-xs font-extrabold bg-white/20 rounded-full px-3 py-1">+50 نقطة</span>
+      </a>
+
+      <a id="igBtn" href="https://www.instagram.com/botlanestudio?stkn=eXdrdGFra2ZveDJn" target="_blank" rel="noopener"
+         class="flex items-center gap-3 rounded-xl text-white p-3 active:scale-95 transition"
+         style="background:linear-gradient(45deg,#f09433,#e6683c 30%,#dc2743 55%,#cc2366 75%,#bc1888)">
+        <svg viewBox="0 0 24 24" class="w-8 h-8 shrink-0" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="#fff" stroke="none"/>
+        </svg>
+        <span class="font-extrabold flex-1 leading-tight">تابع Botlane Studio<br><span class="text-xs font-normal opacity-90">على إنستغرام</span></span>
+        <span id="igBadge" class="text-xs font-extrabold bg-white/20 rounded-full px-3 py-1">+50 نقطة</span>
+      </a>
+
+      <a id="fmcBtn" href="https://www.facebook.com/FMC.elobour" target="_blank" rel="noopener"
+         class="flex items-center gap-3 rounded-xl text-white p-3 active:scale-95 transition"
+         style="background:linear-gradient(90deg,#14304f,#277b8e)">
+        <svg viewBox="0 0 24 24" class="w-8 h-8 shrink-0" fill="#fff" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        <span class="font-extrabold flex-1 leading-tight">تابع عيادات فيوتشر ميديكال<br><span class="text-xs font-normal opacity-90">على فيسبوك</span></span>
+        <span id="fmcBadge" class="text-xs font-extrabold bg-white/20 rounded-full px-3 py-1">+50 نقطة</span>
+      </a>
+    </div>
+
+    <div class="mt-3 rounded-xl bg-amber-400/10 border border-amber-400/40 p-3 text-xs leading-relaxed">
+      <p class="text-slate-200">بعد المتابعة، ابعت لقطة شاشة (Screenshot) للمتابعة على الواتساب عشان نأكد ونضيف النقاط.</p>
+    </div>
+  </section>
+
+  <!-- Form -->
+  <form id="form" class="mt-4 bg-slate-800/70 rounded-2xl p-4 border border-slate-700 space-y-4" novalidate>
+    <h2 class="font-extrabold">📝 سجّل بياناتك واستلم هديتك</h2>
+
+    <div>
+      <label for="name" class="block text-sm mb-1">اسم حضرتك</label>
+      <input id="name" type="text" autocomplete="name" required maxlength="60"
+             class="w-full rounded-xl bg-slate-900 border border-slate-600 px-4 py-3 text-base" placeholder="اكتب اسم حضرتك">
+    </div>
+
+    <div>
+      <label for="phone" class="block text-sm mb-1">رقم الواتساب</label>
+      <input id="phone" type="tel" inputmode="numeric" autocomplete="tel" required maxlength="14" dir="ltr"
+             class="w-full rounded-xl bg-slate-900 border border-slate-600 px-4 py-3 text-base text-right" placeholder="01XXXXXXXXX">
+    </div>
+
+    <div>
+      <label for="interest" class="block text-sm mb-1">إيه اللي يهمك؟</label>
+      <select id="interest" required class="w-full rounded-xl bg-slate-900 border border-slate-600 px-4 py-3 text-base">
+        <option value="">اختار...</option>
+        <option value="botlane">مهتم بخدمات وتطوير المشاريع (Botlane Studio)</option>
+        <option value="medical">مهتم بالخدمات والخصومات الطبية (فيوتشر ميديكال)</option>
+        <option value="both">مهتم بالاتنين سوا!</option>
+      </select>
+    </div>
+
+    <div id="statusWrap" class="hidden">
+      <label for="status" class="block text-sm mb-1">وضع مشروعك</label>
+      <select id="status" class="w-full rounded-xl bg-slate-900 border border-slate-600 px-4 py-3 text-base">
+        <option value="">اختار...</option>
+        <option value="existing">عندي مشروع قائم</option>
+        <option value="idea">عندي فكرة مشروع</option>
+        <option value="none">معنديش مشروع</option>
+      </select>
+    </div>
+
+    <div id="projectWrap" class="hidden">
+      <label for="project" class="block text-sm mb-1">اسم مشروعك أو مجاله</label>
+      <input id="project" type="text" maxlength="80"
+             class="w-full rounded-xl bg-slate-900 border border-slate-600 px-4 py-3 text-base" placeholder="مثال: عيادة أسنان / محل ملابس">
+    </div>
+
+    <!-- honeypot -->
+    <input type="text" id="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
+
+    <p id="error" class="hidden text-sm text-red-400"></p>
+
+    <button id="submitBtn" type="submit"
+            class="w-full rounded-xl bg-gradient-to-l from-amber-400 to-amber-500 text-slate-900 font-extrabold text-lg py-4 active:scale-95 transition disabled:opacity-60">
+      استلم هديتي على واتساب 🎁
+    </button>
+    <p class="text-[11px] text-slate-400 text-center">بياناتك محفوظة عندنا ومش هتتشارك مع أي حد.</p>
+  </form>
+
+  <footer class="text-center text-xs text-slate-500 mt-6">© Botlane Studio</footer>
+</main>
+
+<script>
+/* =========================================================
+   ⚙️ الإعدادات — عدّل هذه القيم فقط
+   ========================================================= */
+const SUPABASE_URL      = "https://ryjfvuzlbigtxbifbxhw.supabase.co/rest/v1/";       // مثال: https://xxxx.supabase.co
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ5amZ2dXpsYmlndHhiaWZieGh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwNTQyODcsImV4cCI6MjEwNjYzMDI4N30._6VnMHY7E0Phi5y4KzXYvlJcnKu8bbowdiRLOowi6V8";  // Project Settings > API > anon public
+const WHATSAPP_NUMBER   = "201091427712";                     // 01091427712 بصيغة دولية
+/* ========================================================= */
+
+const $ = id => document.getElementById(id);
+const BASE_POINTS = 100, SOCIAL_POINTS = 50, MAX_POINTS = 200;
+const followed = { facebook: false, instagram: false, fmc: false };
+
+/* ---------- المكافآت ---------- */
+const REWARDS = [
+  { id: "m25exam",  group: "medical", need: 150, color: "green", text: "خصم 25% على الكشف لدى د. محمد توفيق في عيادات فيوتشر ميديكال", label: "خصم 25% على الكشف لدى د. محمد توفيق (فيوتشر ميديكال)" },
+  { id: "m20labs",  group: "medical", need: 150, color: "green", text: "خصم 20% على التحاليل الطبية بمعمل العيادات", label: "خصم 20% على التحاليل الطبية (فيوتشر ميديكال)" },
+  { id: "m25surg",  group: "medical", need: 200, color: "blue",  text: "خصم 25% على العمليات الجراحية", note: "الخصم غير شامل الأدوية والمستلزمات الطبية", label: "خصم 25% على العمليات الجراحية (فيوتشر ميديكال)" },
+  { id: "b15consult", group: "digital", need: 150, color: "green", text: "استشارة مجانية 15 دقيقة / تقييم مشروعك أونلاين", label: "استشارة مجانية 15 دقيقة / تقييم مشروعي أونلاين (Botlane)" },
+  { id: "blogo",    group: "digital", need: 150, color: "green", text: "تصميم شعار (Logo) احترافي لمشروعك", label: "تصميم شعار (Logo) احترافي لمشروعي (Botlane)" },
+  { id: "bpost",    group: "digital", need: 200, color: "blue",  text: "تصميم بوست Social Media لمشروعك", label: "تصميم بوست Social Media لمشروعي (Botlane)" },
+  { id: "b20disc",  group: "digital", need: 200, color: "blue",  text: "خصم 20% على خدمات إنشاء المواقع والسيستمات وإدارة الصفحات", label: "خصم 20% على خدمات إنشاء المواقع والسيستمات وإدارة الصفحات (Botlane)" },
+];
+let selectedGift = null;
+
+function renderRewards() {
+  const p = currentPoints();
+  const medical = $("listMedical"), digital = $("listDigital");
+  medical.innerHTML = ""; digital.innerHTML = "";
+  REWARDS.forEach(r => {
+    const open = p >= r.need;
+    const li = document.createElement("li");
+    li.className = `reward ${r.color} ${open ? "open" : "locked"} ${selectedGift === r.id ? "selected" : ""} flex items-center gap-2.5 rounded-xl p-2.5 bg-slate-900/60 border border-slate-700`;
+    const dot = r.color === "green" ? "🟢" : "🔵";
+    const ptsColor = r.color === "green" ? "text-green-400" : "text-blue-400";
+    li.innerHTML = `<span class="shrink-0">${dot}</span>
+      <div class="flex-1"><span class="font-extrabold ${ptsColor}">${r.need} نقطة</span><br>${r.text}
+      ${r.note ? `<br><span class="text-[11px] text-amber-300">* ${r.note}</span>` : ""}</div>
+      <span>${selectedGift === r.id ? "🎯" : open ? "✅" : "🔒"}</span>`;
+    li.addEventListener("click", () => {
+      if (!open) { $("hint").textContent = `الهدية دي بتتفتح عند ${r.need} نقطة، تابع الصفحات عشان توصل لها 👇`; return; }
+      selectedGift = selectedGift === r.id ? null : r.id;
+      renderRewards();
+    });
+    (r.group === "medical" ? medical : digital).appendChild(li);
+  });
+}
+
+/* ---------- Source tracking (?src=entrance | stairs) ---------- */
+const rawSrc = new URLSearchParams(location.search).get("src");
+let src = "direct";
+try {
+  if (rawSrc) { src = rawSrc.toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 30) || "direct"; sessionStorage.setItem("src", src); }
+  else { src = sessionStorage.getItem("src") || "direct"; }
+} catch (e) { if (rawSrc) src = rawSrc.replace(/[^a-z0-9_-]/gi, "").slice(0, 30) || "direct"; }
+
+/* ---------- النقاط ---------- */
+function currentPoints() {
+  const n = Object.values(followed).filter(Boolean).length;
+  return Math.min(MAX_POINTS, BASE_POINTS + n * SOCIAL_POINTS);
+}
+function renderPoints() {
+  const p = currentPoints();
+  $("pts").textContent = p;
+  $("bar").style.width = (p / MAX_POINTS * 100) + "%";
+  $("hint").textContent =
+    p >= 200 ? "🔥 ممتاز! وصلت لـ 200 نقطة، ابعت لقطات الشاشة على الواتساب واستلم هديتك."
+    : p >= 150 ? "قربت! فاضل 50 نقطة بس: تابع صفحة تانية 👇"
+    : "تابع صفحة واحدة تفتح لك أول هدايا (150 نقطة) 👇";
+  renderRewards();
+}
+function markFollowed(key, badgeId) {
+  if (followed[key]) return;
+  followed[key] = true;
+  const b = $(badgeId);
+  b.textContent = "تم ✓";
+  b.classList.add("bg-white", "text-slate-900");
+  b.classList.remove("bg-white/20");
+  renderPoints();
+}
+$("fbBtn").addEventListener("click",  () => markFollowed("facebook", "fbBadge"));
+$("igBtn").addEventListener("click",  () => markFollowed("instagram", "igBadge"));
+$("fmcBtn").addEventListener("click", () => markFollowed("fmc", "fmcBadge"));
+
+/* ---------- الاهتمام / حقول شرطية ---------- */
+function onInterestChange() {
+  const v = $("interest").value;
+  const wantsBotlane = v === "botlane" || v === "both";
+  const wantsMedical = v === "medical" || v === "both";
+  $("statusWrap").classList.toggle("hidden", !wantsBotlane);
+  if (!wantsBotlane) { $("status").value = ""; $("project").value = ""; $("projectWrap").classList.add("hidden"); }
+  // إظهار مجموعات المكافآت حسب الاهتمام (لو مفيش اختيار تظهر الاتنين)
+  $("grpMedical").classList.toggle("hidden", v === "botlane");
+  $("grpDigital").classList.toggle("hidden", v === "medical");
+  const g = REWARDS.find(r => r.id === selectedGift);
+  if (g && ((g.group === "medical" && v === "botlane") || (g.group === "digital" && v === "medical"))) selectedGift = null;
+  renderRewards();
+}
+$("interest").addEventListener("change", onInterestChange);
+$("status").addEventListener("change", e => {
+  const show = e.target.value === "existing";
+  $("projectWrap").classList.toggle("hidden", !show);
+  if (!show) $("project").value = "";
+});
+
+/* ---------- Helpers ---------- */
+function normalizePhone(v) {
+  const ar = "٠١٢٣٤٥٦٧٨٩";
+  let s = v.replace(/[٠-٩]/g, d => ar.indexOf(d)).replace(/[^\d+]/g, "");
+  if (s.startsWith("+20")) s = "0" + s.slice(3);
+  else if (s.startsWith("0020")) s = "0" + s.slice(4);
+  else if (s.startsWith("20") && s.length === 12) s = "0" + s.slice(2);
+  return s;
+}
+function showError(msg) { const e = $("error"); e.textContent = msg; e.classList.remove("hidden"); }
+function socialChoice() {
+  const list = Object.keys(followed).filter(k => followed[k]);
+  return list.length ? list.join("+") : "none";
+}
+const INTEREST_LABEL = {
+  botlane: "خدمات وتطوير المشاريع (Botlane Studio)",
+  medical: "الخدمات والخصومات الطبية (فيوتشر ميديكال)",
+  both: "الاتنين سوا (مشروعي + الخدمات الطبية)"
+};
+
+/* ---------- Submit ---------- */
+$("form").addEventListener("submit", async e => {
+  e.preventDefault();
+  $("error").classList.add("hidden");
+  if ($("website").value) return; // bot
+
+  const name = $("name").value.trim();
+  const phone = normalizePhone($("phone").value);
+  const interest = $("interest").value;
+  const wantsBotlane = interest === "botlane" || interest === "both";
+  const status = wantsBotlane ? $("status").value : "";
+  const project = $("project").value.trim();
+
+  if (name.length < 2) return showError("من فضلك اكتب اسمك.");
+  if (!/^01[0125]\d{8}$/.test(phone)) return showError("رقم الواتساب غير صحيح، اكتبه بالشكل 01XXXXXXXXX");
+  if (!interest) return showError("اختار إيه اللي يهمك.");
+  if (wantsBotlane && !status) return showError("اختار وضع مشروعك.");
+  if (status === "existing" && project.length < 2) return showError("اكتب اسم مشروعك أو مجاله.");
+
+  const points = currentPoints();
+  const gift = REWARDS.find(r => r.id === selectedGift);
+  const btn = $("submitBtn");
+  btn.disabled = true; btn.textContent = "جاري التجهيز...";
+
+  const row = {
+    name, whatsapp: phone, interest,
+    project_status: status || null,
+    project_name: status === "existing" ? project : null,
+    social_choice: socialChoice(), points, src,
+    gift: gift ? gift.id : null
+  };
+
+  // Save to Supabase (لو فشل الحفظ، العميل برضه يكمل للواتساب)
+  try {
+    if (!SUPABASE_URL.startsWith("PUT_")) {
+      const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 5000);
+      await fetch(SUPABASE_URL + "/rest/v1/leads", {
+        method: "POST", signal: ctrl.signal,
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+          "Content-Type": "application/json",
+          "Prefer": "return=minimal"
+        },
+        body: JSON.stringify(row)
+      });
+      clearTimeout(t);
+    }
+  } catch (err) { console.warn("Supabase save failed", err); }
+
+  // WhatsApp message
+  let projectPart = "";
+  if (wantsBotlane) {
+    const pl = status === "existing" ? project : status === "idea" ? "فكرة مشروع" : "لسه معنديش مشروع";
+    projectPart = ` لمشروعي (${pl})`;
+  }
+  const giftPart = gift ? `عايز أستلم هديتي: ${gift.label} 🎁` : "وعايز أستلم هديتي 🎁";
+  const msg = `أهلاً Botlane Studio، أنا ${name}، مسحت الكود وسجلت بياناتي${projectPart}. اهتمامي: ${INTEREST_LABEL[interest]}. معيا ${points} نقطة ${gift ? giftPart : giftPart}`;
+
+  location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  setTimeout(() => { btn.disabled = false; btn.textContent = "استلم هديتي على واتساب 🎁"; }, 2500);
+});
+
+renderPoints();
+</script>
+</body>
+</html>
