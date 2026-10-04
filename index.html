@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6YFS3TZKFB"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-6YFS3TZKFB');
 </script>
 <meta charset="UTF-8">
@@ -82,11 +81,29 @@
         </div>
         <div class="flex-1">
           <h3 class="font-extrabold text-sm text-teal-300">🏥 مكافآت عيادات فيوتشر ميديكال</h3>
-          <p class="text-sm font-extrabold text-white mt-1">د. محمد توفيق</p>
-          <p class="text-xs text-slate-300 leading-relaxed">استشاري النساء والتوليد والحقن المجهري وجراحة المناظير</p>
+          <p class="text-xs text-slate-300 leading-relaxed mt-1">📍 العبور - الحي الأول - أمام المجمع الإسلامي - سنتر الحرمين</p>
         </div>
       </div>
-      <ul id="listMedical" class="space-y-1.5 text-[13px] leading-snug"></ul>
+
+      <div class="rounded-xl bg-slate-900/40 border border-slate-700 p-2.5 mb-2">
+        <p class="text-sm font-extrabold text-white">د. محمد توفيق</p>
+        <p class="text-xs text-slate-300 leading-relaxed">استشاري النساء والتوليد والحقن المجهري وجراحة المناظير</p>
+        <p class="text-xs text-teal-300 mt-1">🕘 المواعيد: السبت والاثنين والأربعاء 9 مساءً</p>
+        <ul id="listDr1" class="space-y-1.5 text-[13px] leading-snug mt-2"></ul>
+      </div>
+
+      <div class="rounded-xl bg-slate-900/40 border border-slate-700 p-2.5 mb-2">
+        <p class="text-sm font-extrabold text-white">د. مها مجدي</p>
+        <p class="text-xs text-slate-300 leading-relaxed">أخصائية أمراض النساء والتوليد (ماجستير جامعة الإسكندرية)</p>
+        <p class="text-xs text-teal-300 mt-1">🕘 المواعيد: الأحد إلى الخميس 11 ص - 4 عصراً</p>
+        <div class="mt-2 rounded-lg bg-amber-400/10 border border-amber-400/40 px-3 py-2 text-xs font-extrabold text-amber-300">✨ ملاحظة: الكشف مجاناً يوم الخميس فقط لفترة محدودة ✨</div>
+        <ul id="listDr2" class="space-y-1.5 text-[13px] leading-snug mt-2"></ul>
+      </div>
+
+      <div class="rounded-xl bg-slate-900/40 border border-slate-700 p-2.5">
+        <p class="text-sm font-extrabold text-white mb-2">🧪 التحاليل والعمليات</p>
+        <ul id="listLabs" class="space-y-1.5 text-[13px] leading-snug"></ul>
+      </div>
     </div>
 
     <div id="grpDigital">
@@ -193,7 +210,7 @@
 /* =========================================================
    ⚙️ الإعدادات — عدّل هذه القيم فقط
    ========================================================= */
-const SUPABASE_URL      = "https://ryjfvuzlbigtxbifbxhw.supabase.co/rest/v1/";       // مثال: https://xxxx.supabase.co
+const SUPABASE_URL      = "https://ryjfvuzlbigtxbifbxhw.supabase.co";       // مثال: https://xxxx.supabase.co
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ5amZ2dXpsYmlndHhiaWZieGh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwNTQyODcsImV4cCI6MjEwNjYzMDI4N30._6VnMHY7E0Phi5y4KzXYvlJcnKu8bbowdiRLOowi6V8";  // Project Settings > API > anon public
 const WHATSAPP_NUMBER   = "201091427712";                     // 01091427712 بصيغة دولية
 /* ========================================================= */
@@ -204,20 +221,37 @@ const followed = { facebook: false, instagram: false, fmc: false };
 
 /* ---------- المكافآت ---------- */
 const REWARDS = [
-  { id: "m25exam",  group: "medical", need: 150, color: "green", text: "خصم 25% على الكشف لدى د. محمد توفيق في عيادات فيوتشر ميديكال", label: "خصم 25% على الكشف لدى د. محمد توفيق (فيوتشر ميديكال)" },
-  { id: "m20labs",  group: "medical", need: 150, color: "green", text: "خصم 20% على التحاليل الطبية بمعمل العيادات", label: "خصم 20% على التحاليل الطبية (فيوتشر ميديكال)" },
-  { id: "m25surg",  group: "medical", need: 200, color: "blue",  text: "خصم 25% على العمليات الجراحية", note: "الخصم غير شامل الأدوية والمستلزمات الطبية", label: "خصم 25% على العمليات الجراحية (فيوتشر ميديكال)" },
-  { id: "b15consult", group: "digital", need: 150, color: "green", text: "استشارة مجانية 15 دقيقة / تقييم مشروعك أونلاين", label: "استشارة مجانية 15 دقيقة / تقييم مشروعي أونلاين (Botlane)" },
-  { id: "blogo",    group: "digital", need: 150, color: "green", text: "تصميم شعار (Logo) احترافي لمشروعك", label: "تصميم شعار (Logo) احترافي لمشروعي (Botlane)" },
-  { id: "bpost",    group: "digital", need: 200, color: "blue",  text: "تصميم بوست Social Media لمشروعك", label: "تصميم بوست Social Media لمشروعي (Botlane)" },
-  { id: "b20disc",  group: "digital", need: 200, color: "blue",  text: "خصم 20% على خدمات إنشاء المواقع والسيستمات وإدارة الصفحات", label: "خصم 20% على خدمات إنشاء المواقع والسيستمات وإدارة الصفحات (Botlane)" },
+  { id: "m_dr_tawfik", group: "medical", sub: "dr1", need: 200, color: "blue", text: "خصم 25% على الكشف بالسونار", label: "خصم 25% على الكشف بالسونار لدى د. محمد توفيق (فيوتشر ميديكال)" },
+  { id: "m_dr_maha",   group: "medical", sub: "dr2", need: 200, color: "blue", text: "خصم 33% على الكشف بالسونار", label: "خصم 33% على الكشف بالسونار لدى د. مها مجدي (فيوتشر ميديكال)" },
+  { id: "m_labs",      group: "medical", sub: "labs", need: 200, color: "blue", text: "خصم 20% على التحاليل الطبية", label: "خصم 20% على التحاليل الطبية (فيوتشر ميديكال)" },
+  { id: "m_surgery",   group: "medical", sub: "labs", need: 200, color: "blue", text: "خصم 25% على العمليات وجراحات المناظير", note: "غير شامل الأدوية والمستلزمات الطبية", label: "خصم 25% على العمليات وجراحات المناظير - غير شامل الأدوية والمستلزمات الطبية (فيوتشر ميديكال)" },
+  { id: "b_logo",      group: "digital", sub: "digital", need: 150, color: "green", text: "تصميم اللوجو لمشروعك", label: "تصميم اللوجو لمشروعي (Botlane)" },
+  { id: "b_social",    group: "digital", sub: "digital", need: 200, color: "blue", text: "خصم 40 جنيه على تصميم السوشيال ميديا لمشروعك", note: "الحد الأقصى للاستفادة 3 بوستات", label: "خصم 40 جنيه على تصميم السوشيال ميديا - حتى 3 بوستات (Botlane)" },
+  { id: "b_web",       group: "digital", sub: "digital", need: 200, color: "blue", text: "خصم 20% على المواقع والخدمات الأخرى", label: "خصم 20% على المواقع والخدمات الأخرى (Botlane)" },
+  { id: "b_canva",     group: "digital", sub: "digital", need: 200, color: "blue", text: "اشتراك شهر كانفا التعليمي وأدوات الذكاء الاصطناعي", logo: "canva-logo.png", label: "اشتراك شهر كانفا التعليمي وأدوات الذكاء الاصطناعي (Botlane)" },
 ];
 let selectedGift = null;
 
+/* لوجو كانفا: لو الصورة canva-logo.png مش موجودة بيظهر لوجو بديل */
+function canvaLogoHTML() {
+  return `<span class="inline-flex items-center gap-1.5 mt-1.5 bg-white rounded-lg px-2 py-1 align-middle" dir="ltr">
+    <img src="canva-logo.png" alt="Canva" class="h-5 w-auto object-contain"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+    <span style="display:none;align-items:center;gap:5px">
+      <svg viewBox="0 0 32 32" width="20" height="20" aria-hidden="true">
+        <defs><linearGradient id="cvg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00c4cc"/><stop offset="1" stop-color="#7d2ae8"/></linearGradient></defs>
+        <circle cx="16" cy="16" r="16" fill="url(#cvg)"/>
+        <path d="M20.5 20.2c-1 1.6-2.6 2.6-4.4 2.6-3 0-5-2.4-5-5.6 0-3.6 2.4-6.6 5.4-6.6 1.5 0 2.6.8 2.8 2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span style="font-weight:800;font-size:14px;color:#7d2ae8;font-family:Arial,sans-serif">Canva</span>
+    </span>
+  </span>`;
+}
+
 function renderRewards() {
   const p = currentPoints();
-  const medical = $("listMedical"), digital = $("listDigital");
-  medical.innerHTML = ""; digital.innerHTML = "";
+  const lists = { dr1: $("listDr1"), dr2: $("listDr2"), labs: $("listLabs"), digital: $("listDigital") };
+  Object.values(lists).forEach(ul => ul.innerHTML = "");
   REWARDS.forEach(r => {
     const open = p >= r.need;
     const li = document.createElement("li");
@@ -226,14 +260,15 @@ function renderRewards() {
     const ptsColor = r.color === "green" ? "text-green-400" : "text-blue-400";
     li.innerHTML = `<span class="shrink-0">${dot}</span>
       <div class="flex-1"><span class="font-extrabold ${ptsColor}">${r.need} نقطة</span><br>${r.text}
-      ${r.note ? `<br><span class="text-[11px] text-amber-300">* ${r.note}</span>` : ""}</div>
+      ${r.note ? `<br><span class="text-[11px] text-amber-300">* ${r.note}</span>` : ""}
+      ${r.logo ? `<br>${canvaLogoHTML()}` : ""}</div>
       <span>${selectedGift === r.id ? "🎯" : open ? "✅" : "🔒"}</span>`;
     li.addEventListener("click", () => {
       if (!open) { $("hint").textContent = `الهدية دي بتتفتح عند ${r.need} نقطة، تابع الصفحات عشان توصل لها 👇`; return; }
       selectedGift = selectedGift === r.id ? null : r.id;
       renderRewards();
     });
-    (r.group === "medical" ? medical : digital).appendChild(li);
+    lists[r.sub].appendChild(li);
   });
 }
 
